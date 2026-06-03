@@ -1,0 +1,36 @@
+<view class="page">
+  <view class="header" wx:if="{{houseList.length > 0}}">
+    <text class="count">共浏览 {{totalCount}} 套房源</text>
+    <text class="clear-btn" bindtap="clearHistory">清空历史</text>
+  </view>
+
+  <scroll-view scroll-y class="house-list" bindscrolltolower="loadMore" wx:if="{{houseList.length > 0}}">
+    <view class="group" wx:for="{{groupedList}}" wx:key="date">
+      <view class="group-title">{{item.date}}</view>
+      <view class="house-item" wx:for="{{item.list}}" wx:for-item="house" wx:key="_id" bindtap="goDetail" data-id="{{house._id}}">
+        <image class="house-image" src="{{house.images[0]}}" mode="aspectFill"></image>
+        <view class="house-info">
+          <view class="house-title">{{house.title}}</view>
+          <view class="house-desc">
+            <text>{{house.bedrooms}}室{{house.livingrooms}}厅</text>
+            <text>·</text>
+            <text>{{house.area}}㎡</text>
+          </view>
+          <view class="house-price">
+            <text class="price">¥{{house.price}}</text>
+            <text class="unit">{{house.priceUnit === 'total' ? '万' : '/月'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+    <view class="no-more" wx:if="{{noMore && houseList.length > 0}}">— 已经到底了 —</view>
+  </scroll-view>
+
+  <view class="empty" wx:if="{{houseList.length === 0 && !loading}}">
+    <image class="empty-image" src="/images/empty-history.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无浏览记录</text>
+    <button class="empty-btn" bindtap="goHome">去逛逛</button>
+  </view>
+</view>

@@ -1,0 +1,141 @@
+<view class="page">
+  <scroll-view scroll-y class="form-scroll">
+    <view class="form-section">
+      <view class="section-title">房源类型</view>
+      <view class="type-tabs">
+        <view class="tab {{form.type === 'rent' ? 'active' : ''}}" bindtap="selectType" data-type="rent">整租</view>
+        <view class="tab {{form.type === 'share' ? 'active' : ''}}" bindtap="selectType" data-type="share">合租</view>
+        <view class="tab {{form.type === 'sale' ? 'active' : ''}}" bindtap="selectType" data-type="sale">出售</view>
+        <view class="tab {{form.type === 'new' ? 'active' : ''}}" bindtap="selectType" data-type="new">新房</view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">房源图片</view>
+      <view class="image-uploader">
+        <view class="image-item" wx:for="{{form.images}}" wx:key="*this">
+          <image class="image" src="{{item}}" mode="aspectFill"></image>
+          <text class="image-delete" bindtap="deleteImage" data-index="{{index}}">✕</text>
+        </view>
+        <view class="image-add" bindtap="chooseImage" wx:if="{{form.images.length < 9}}">
+          <text class="add-icon">+</text>
+          <text class="add-text">上传图片</text>
+          <text class="add-count">{{form.images.length}}/9</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">基本信息</view>
+      <view class="form-item">
+        <text class="label">房源标题</text>
+        <input class="input" placeholder="请输入房源标题" value="{{form.title}}" bindinput="onInput" data-field="title" maxlength="50" />
+      </view>
+      <view class="form-item">
+        <text class="label">所在小区</text>
+        <input class="input" placeholder="请输入小区名称" value="{{form.communityName}}" bindinput="onInput" data-field="communityName" />
+      </view>
+      <view class="form-item">
+        <text class="label">详细地址</text>
+        <input class="input" placeholder="请输入详细地址" value="{{form.address}}" bindinput="onInput" data-field="address" />
+      </view>
+      <view class="form-row">
+        <view class="form-item half">
+          <text class="label">户型</text>
+          <view class="picker-group">
+            <picker mode="selector" range="{{bedroomOptions}}" bindchange="onBedroomChange" value="{{bedroomIndex}}">
+              <view class="picker">{{form.bedrooms}}室</view>
+            </picker>
+            <picker mode="selector" range="{{livingroomOptions}}" bindchange="onLivingroomChange" value="{{livingroomIndex}}">
+              <view class="picker">{{form.livingrooms}}厅</view>
+            </picker>
+            <picker mode="selector" range="{{bathroomOptions}}" bindchange="onBathroomChange" value="{{bathroomIndex}}">
+              <view class="picker">{{form.bathrooms}}卫</view>
+            </picker>
+          </view>
+        </view>
+        <view class="form-item half">
+          <text class="label">面积（㎡）</text>
+          <input class="input" type="digit" placeholder="请输入" value="{{form.area}}" bindinput="onInput" data-field="area" />
+        </view>
+      </view>
+      <view class="form-row">
+        <view class="form-item half">
+          <text class="label">租金/售价</text>
+          <input class="input" type="digit" placeholder="请输入" value="{{form.price}}" bindinput="onInput" data-field="price" />
+        </view>
+        <view class="form-item half">
+          <text class="label">单位</text>
+          <picker mode="selector" range="{{priceUnitOptions}}" bindchange="onPriceUnitChange" value="{{priceUnitIndex}}">
+            <view class="picker">{{form.priceUnit === 'month' ? '元/月' : '万元'}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">详细信息</view>
+      <view class="form-item">
+        <text class="label">楼层</text>
+        <input class="input" placeholder="如：中楼层/30层" value="{{form.floor}}" bindinput="onInput" data-field="floor" />
+      </view>
+      <view class="form-item">
+        <text class="label">朝向</text>
+        <picker mode="selector" range="{{orientationOptions}}" bindchange="onOrientationChange" value="{{orientationIndex}}">
+          <view class="picker">{{form.orientation || '请选择'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">装修</text>
+        <picker mode="selector" range="{{decorationOptions}}" bindchange="onDecorationChange" value="{{decorationIndex}}">
+          <view class="picker">{{form.decoration || '请选择'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">建成年份</text>
+        <input class="input" type="number" placeholder="如：2020" value="{{form.buildYear}}" bindinput="onInput" data-field="buildYear" />
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">配套设施</view>
+      <view class="checkbox-group">
+        <view class="checkbox-item {{form.facilities.includes(item) ? 'active' : ''}}" wx:for="{{facilityOptions}}" wx:key="*this" bindtap="toggleFacility" data-value="{{item}}">
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">房源特色</view>
+      <view class="checkbox-group">
+        <view class="checkbox-item {{form.features.includes(item) ? 'active' : ''}}" wx:for="{{featureOptions}}" wx:key="*this" bindtap="toggleFeature" data-value="{{item}}">
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">房源描述</view>
+      <textarea class="textarea" placeholder="请详细描述房源情况、周边配套等信息" value="{{form.description}}" bindinput="onInput" data-field="description" maxlength="1000" />
+      <text class="count">{{form.description.length}}/1000</text>
+    </view>
+
+    <view class="form-section">
+      <view class="section-title">联系方式</view>
+      <view class="form-item">
+        <text class="label">联系人</text>
+        <input class="input" placeholder="请输入联系人姓名" value="{{form.contactName}}" bindinput="onInput" data-field="contactName" />
+      </view>
+      <view class="form-item">
+        <text class="label">联系电话</text>
+        <input class="input" type="number" placeholder="请输入联系电话" value="{{form.contactPhone}}" bindinput="onInput" data-field="contactPhone" />
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="footer">
+    <button class="btn-save" bindtap="saveDraft">保存草稿</button>
+    <button class="btn-submit" bindtap="submit">立即发布</button>
+  </view>
+</view>

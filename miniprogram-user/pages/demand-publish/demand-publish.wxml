@@ -1,0 +1,76 @@
+<view class="page">
+  <view class="type-tabs">
+    <view class="tab {{demandType === 'rent' ? 'active' : ''}}" bindtap="switchType" data-type="rent">求租</view>
+    <view class="tab {{demandType === 'buy' ? 'active' : ''}}" bindtap="switchType" data-type="buy">求购</view>
+  </view>
+
+  <scroll-view scroll-y class="form-scroll">
+    <view class="form-section">
+      <view class="form-item">
+        <text class="label">期望户型</text>
+        <view class="checkbox-group">
+          <view class="checkbox-item {{selectedBedrooms.includes(item) ? 'active' : ''}}" wx:for="{{bedroomOptions}}" wx:key="*this" bindtap="toggleBedroom" data-value="{{item}}">
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="label">期望面积</text>
+        <view class="range-picker">
+          <picker mode="selector" range="{{areaOptions}}" bindchange="onMinAreaChange" value="{{minAreaIndex}}">
+            <view class="picker">{{areaOptions[minAreaIndex]}}</view>
+          </picker>
+          <text class="separator">-</text>
+          <picker mode="selector" range="{{areaOptions}}" bindchange="onMaxAreaChange" value="{{maxAreaIndex}}">
+            <view class="picker">{{areaOptions[maxAreaIndex]}}</view>
+          </picker>
+          <text class="unit">㎡</text>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="label">预算价格</text>
+        <view class="price-input">
+          <input class="input" type="digit" placeholder="最低" value="{{form.minPrice}}" bindinput="onInput" data-field="minPrice" />
+          <text class="separator">-</text>
+          <input class="input" type="digit" placeholder="最高" value="{{form.maxPrice}}" bindinput="onInput" data-field="maxPrice" />
+          <text class="unit">{{demandType === 'rent' ? '元/月' : '万'}}</text>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="label">期望区域</text>
+        <picker mode="multiSelector" range="{{regionOptions}}" bindchange="onRegionChange" value="{{regionIndex}}">
+          <view class="picker-full">{{regionText || '请选择区域'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item" wx:if="{{demandType === 'rent'}}">
+        <text class="label">入住时间</text>
+        <picker mode="date" value="{{form.moveDate}}" bindchange="onMoveDateChange">
+          <view class="picker-full">{{form.moveDate || '请选择入住时间'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">其他要求</text>
+        <view class="checkbox-group">
+          <view class="checkbox-item {{form.features.includes(item) ? 'active' : ''}}" wx:for="{{featureOptions}}" wx:key="*this" bindtap="toggleFeature" data-value="{{item}}">
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="label">补充说明</text>
+        <textarea class="textarea" placeholder="请输入其他补充说明（选填）" value="{{form.description}}" bindinput="onInput" data-field="description" maxlength="500" />
+        <text class="count">{{form.description.length}}/500</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="footer">
+    <button class="submit-btn" bindtap="submit">发布需求</button>
+  </view>
+</view>

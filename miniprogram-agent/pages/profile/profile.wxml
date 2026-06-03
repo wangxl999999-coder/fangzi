@@ -1,0 +1,82 @@
+<view class="page">
+  <view class="header">
+    <view class="user-info" bindtap="goLogin" wx:if="{{!userInfo}}">
+      <image class="avatar" src="/images/default-avatar.png"></image>
+      <view class="user-detail">
+        <text class="login-tip">点击登录</text>
+        <text class="login-desc">登录后使用更多功能</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+    <view class="user-info" wx:if="{{userInfo}}">
+      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+      <view class="user-detail">
+        <text class="nickname">{{userInfo.realName || userInfo.nickname || '经纪人'}}</text>
+        <view class="auth-info">
+          <text class="auth-tag status-{{userInfo.authStatus}}">{{getAuthStatusText(userInfo.authStatus)}}</text>
+          <text class="go-auth" wx:if="{{userInfo.authStatus !== 'approved'}}" bindtap="goAuth">去认证</text>
+        </view>
+      </view>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goAuth">
+      <text class="menu-icon">📋</text>
+      <text class="menu-name">实名认证</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goQualification">
+      <text class="menu-icon">📜</text>
+      <text class="menu-name">资质上传</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goStatistics">
+      <text class="menu-icon">📊</text>
+      <text class="menu-name">数据统计</text>
+      <text class="menu-arrow">></text>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goHouseManage">
+      <text class="menu-icon">🏠</text>
+      <text class="menu-name">我的房源</text>
+      <text class="badge">{{stats.totalHouses}}</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goAppointments">
+      <text class="menu-icon">📅</text>
+      <text class="menu-name">预约管理</text>
+      <text class="badge" wx:if="{{stats.pendingAppointments > 0}}">{{stats.pendingAppointments}}</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goMessages">
+      <text class="menu-icon">💬</text>
+      <text class="menu-name">消息中心</text>
+      <text class="badge" wx:if="{{stats.unreadMessages > 0}}">{{stats.unreadMessages}}</text>
+      <text class="menu-arrow">></text>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goAccount">
+      <text class="menu-icon">⚙️</text>
+      <text class="menu-name">账户设置</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goHelp">
+      <text class="menu-icon">❓</text>
+      <text class="menu-name">帮助中心</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goAbout">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-name">关于我们</text>
+      <text class="menu-arrow">></text>
+    </view>
+  </view>
+
+  <button class="logout-btn" wx:if="{{userInfo}}" bindtap="logout">退出登录</button>
+</view>

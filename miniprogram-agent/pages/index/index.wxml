@@ -1,0 +1,102 @@
+<view class="page">
+  <view class="header">
+    <view class="user-info" wx:if="{{userInfo}}">
+      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+      <view class="user-detail">
+        <view class="welcome">您好，{{userInfo.realName || userInfo.nickname}}</view>
+        <view class="auth-status">
+          <text class="status-tag status-{{userInfo.authStatus}}">{{getAuthStatusText(userInfo.authStatus)}}</text>
+          <text class="go-auth" wx:if="{{userInfo.authStatus !== 'approved'}}" bindtap="goAuth">去认证 ></text>
+        </view>
+      </view>
+    </view>
+    <view class="user-info" wx:else>
+      <image class="avatar" src="/images/default-avatar.png"></image>
+      <view class="user-detail">
+        <view class="welcome" bindtap="goLogin">点击登录</view>
+        <view class="auth-status">登录后使用更多功能</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stats-title">今日数据</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-number">{{stats.todayViews}}</text>
+        <text class="stat-label">浏览量</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.todayAppointments}}</text>
+        <text class="stat-label">预约量</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.todayCalls}}</text>
+        <text class="stat-label">咨询电话</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.todayMessages}}</text>
+        <text class="stat-label">消息数</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stats-title">总数据</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-number">{{stats.totalHouses}}</text>
+        <text class="stat-label">发布房源</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.onlineHouses}}</text>
+        <text class="stat-label">在租房源</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.totalViews}}</text>
+        <text class="stat-label">总浏览</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.totalFavorites}}</text>
+        <text class="stat-label">总收藏</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="quick-actions">
+    <view class="action-title">快捷操作</view>
+    <view class="action-grid">
+      <view class="action-item" bindtap="goPublish">
+        <text class="action-icon">➕</text>
+        <text class="action-text">发布房源</text>
+      </view>
+      <view class="action-item" bindtap="goManage">
+        <text class="action-icon">📋</text>
+        <text class="action-text">房源管理</text>
+      </view>
+      <view class="action-item" bindtap="goAppointments">
+        <text class="action-icon">📅</text>
+        <text class="action-text">预约管理</text>
+      </view>
+      <view class="action-item" bindtap="goStatistics">
+        <text class="action-icon">📊</text>
+        <text class="action-text">数据统计</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="recent-appointments" wx:if="{{recentAppointments.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">最新预约</text>
+      <text class="section-more" bindtap="goAppointments">查看全部 ></text>
+    </view>
+    <view class="appointment-item" wx:for="{{recentAppointments}}" wx:key="_id">
+      <view class="apt-info">
+        <text class="apt-name">{{item.userName}}</text>
+        <text class="apt-time">{{item.date}} {{item.time}}</text>
+      </view>
+      <view class="apt-house">{{item.houseTitle}}</view>
+      <view class="apt-status status-{{item.status}}">{{getStatusText(item.status)}}</view>
+    </view>
+  </view>
+</view>

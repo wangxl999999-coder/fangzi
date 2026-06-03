@@ -1,0 +1,59 @@
+<view class="page">
+  <view class="filter-tabs">
+    <view class="tab {{activeStatus === 'all' ? 'active' : ''}}" bindtap="switchStatus" data-status="all">全部</view>
+    <view class="tab {{activeStatus === 'online' ? 'active' : ''}}" bindtap="switchStatus" data-status="online">已上架</view>
+    <view class="tab {{activeStatus === 'offline' ? 'active' : ''}}" bindtap="switchStatus" data-status="offline">已下架</view>
+    <view class="tab {{activeStatus === 'pending' ? 'active' : ''}}" bindtap="switchStatus" data-status="pending">待审核</view>
+  </view>
+
+  <scroll-view scroll-y class="house-list" bindscrolltolower="loadMore">
+    <view class="house-item" wx:for="{{houseList}}" wx:key="_id">
+      <image class="house-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+      <view class="house-info">
+        <view class="house-title">
+          {{item.title}}
+          <text class="status-tag status-{{item.status}}">{{getStatusText(item.status)}}</text>
+        </view>
+        <view class="house-desc">
+          <text>{{item.bedrooms}}室{{item.livingrooms}}厅</text>
+          <text>·</text>
+          <text>{{item.area}}㎡</text>
+          <text>·</text>
+          <text>{{item.decoration}}</text>
+        </view>
+        <view class="house-address">📍 {{item.address}}</view>
+        <view class="house-bottom">
+          <view class="house-price">
+            <text class="price">¥{{item.price}}</text>
+            <text class="unit">{{item.priceUnit === 'total' ? '万' : '/月'}}</text>
+          </view>
+          <view class="house-actions">
+            <text class="action-btn" bindtap="editHouse" data-id="{{item._id}}">编辑</text>
+            <text class="action-btn {{item.status === 'online' ? 'offline' : 'online'}}" bindtap="toggleOnline" data-id="{{item._id}}" data-status="{{item.status}}">
+              {{item.status === 'online' ? '下架' : '上架'}}
+            </text>
+            <text class="action-btn delete" bindtap="deleteHouse" data-id="{{item._id}}">删除</text>
+          </view>
+        </view>
+        <view class="house-stats">
+          <text>👁 {{item.viewCount || 0}}</text>
+          <text>⭐ {{item.favoriteCount || 0}}</text>
+          <text>📅 {{formatDate(item.createdAt)}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{houseList.length === 0 && !loading}}">
+      <text class="empty-icon">🏠</text>
+      <text class="empty-text">暂无房源</text>
+      <button class="empty-btn" bindtap="goPublish">去发布</button>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+    <view class="no-more" wx:if="{{noMore && houseList.length > 0}}">— 已经到底了 —</view>
+  </scroll-view>
+
+  <view class="fab" bindtap="goPublish">
+    <text class="fab-icon">+</text>
+  </view>
+</view>

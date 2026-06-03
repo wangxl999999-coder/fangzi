@@ -1,0 +1,43 @@
+<view class="page">
+  <view class="filter-tabs">
+    <view class="tab {{activeType === 'all' ? 'active' : ''}}" bindtap="switchType" data-type="all">全部</view>
+    <view class="tab {{activeType === 'sale' ? 'active' : ''}}" bindtap="switchType" data-type="sale">买房</view>
+    <view class="tab {{activeType === 'rent' ? 'active' : ''}}" bindtap="switchType" data-type="rent">租房</view>
+    <view class="tab {{activeType === 'new' ? 'active' : ''}}" bindtap="switchType" data-type="new">新房</view>
+  </view>
+
+  <scroll-view scroll-y class="house-list" bindscrolltolower="loadMore" wx:if="{{houseList.length > 0}}">
+    <view class="house-item" wx:for="{{houseList}}" wx:key="_id" bindtap="goDetail" data-id="{{item._id}}">
+      <image class="house-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+      <view class="house-info">
+        <view class="house-title">{{item.title}}</view>
+        <view class="house-desc">
+          <text>{{item.bedrooms}}室{{item.livingrooms}}厅</text>
+          <text>·</text>
+          <text>{{item.area}}㎡</text>
+          <text>·</text>
+          <text>{{item.decoration}}</text>
+        </view>
+        <view class="house-address">
+          <text>📍 {{item.communityName || item.address}}</text>
+        </view>
+        <view class="house-bottom">
+          <view class="house-price">
+            <text class="price">¥{{item.price}}</text>
+            <text class="unit">{{item.priceUnit === 'total' ? '万' : '/月'}}</text>
+          </view>
+          <text class="remove-btn" catchtap="removeFavorite" data-id="{{item._id}}">取消</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+    <view class="no-more" wx:if="{{noMore && houseList.length > 0}}">— 已经到底了 —</view>
+  </scroll-view>
+
+  <view class="empty" wx:if="{{houseList.length === 0 && !loading}}">
+    <image class="empty-image" src="/images/empty-favorite.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无收藏房源</text>
+    <button class="empty-btn" bindtap="goHome">去逛逛</button>
+  </view>
+</view>

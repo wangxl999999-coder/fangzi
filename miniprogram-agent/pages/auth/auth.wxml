@@ -1,0 +1,84 @@
+<view class="page">
+  <view class="login-section" wx:if="{{!isLoggedIn}}">
+    <view class="section-title">账号登录</view>
+    <view class="form-item">
+      <text class="label">手机号</text>
+      <input class="input" type="number" maxlength="11" placeholder="请输入手机号" value="{{loginForm.phone}}" bindinput="onLoginInput" data-field="phone" />
+    </view>
+    <view class="form-item">
+      <text class="label">验证码</text>
+      <view class="code-group">
+        <input class="input code-input" type="number" maxlength="6" placeholder="请输入验证码" value="{{loginForm.code}}" bindinput="onLoginInput" data-field="code" />
+        <button class="code-btn {{countdown > 0 ? 'disabled' : ''}}" bindtap="sendCode" disabled="{{countdown > 0}}">
+          {{countdown > 0 ? countdown + 's' : '获取'}}
+        </button>
+      </view>
+    </view>
+    <button class="btn-login" bindtap="login">登录</button>
+  </view>
+
+  <view class="auth-section" wx:if="{{isLoggedIn}}">
+    <view class="status-card status-{{authStatus}}">
+      <view class="status-icon">{{getStatusIcon(authStatus)}}</view>
+      <view class="status-text">{{getStatusText(authStatus)}}</view>
+      <view class="status-desc" wx:if="{{authStatus === 'pending'}}">认证审核中，请耐心等待</view>
+      <view class="status-desc" wx:if="{{authStatus === 'rejected'}}">认证失败，请重新提交</view>
+    </view>
+
+    <view class="form-section" wx:if="{{authStatus !== 'approved'}}">
+      <view class="section-title">实名认证</view>
+      <view class="form-item">
+        <text class="label">真实姓名</text>
+        <input class="input" placeholder="请输入真实姓名" value="{{authForm.realName}}" bindinput="onAuthInput" data-field="realName" />
+      </view>
+      <view class="form-item">
+        <text class="label">身份证号</text>
+        <input class="input" placeholder="请输入身份证号" value="{{authForm.idCard}}" bindinput="onAuthInput" data-field="idCard" maxlength="18" />
+      </view>
+      <view class="form-item">
+        <text class="label">身份证正面</text>
+        <view class="upload-area" bindtap="uploadImage" data-field="idCardFront">
+          <image wx:if="{{authForm.idCardFront}}" class="uploaded-image" src="{{authForm.idCardFront}}" mode="aspectFill"></image>
+          <view wx:else class="upload-placeholder">
+            <text class="upload-icon">+</text>
+            <text class="upload-text">点击上传</text>
+          </view>
+        </view>
+      </view>
+      <view class="form-item">
+        <text class="label">身份证反面</text>
+        <view class="upload-area" bindtap="uploadImage" data-field="idCardBack">
+          <image wx:if="{{authForm.idCardBack}}" class="uploaded-image" src="{{authForm.idCardBack}}" mode="aspectFill"></image>
+          <view wx:else class="upload-placeholder">
+            <text class="upload-icon">+</text>
+            <text class="upload-text">点击上传</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section" wx:if="{{authStatus !== 'approved'}}">
+      <view class="section-title">经纪人资质</view>
+      <view class="form-item">
+        <text class="label">所属公司</text>
+        <input class="input" placeholder="请输入所属公司" value="{{authForm.company}}" bindinput="onAuthInput" data-field="company" />
+      </view>
+      <view class="form-item">
+        <text class="label">经纪人证书</text>
+        <input class="input" placeholder="请输入证书编号（选填）" value="{{authForm.certificateNo}}" bindinput="onAuthInput" data-field="certificateNo" />
+      </view>
+      <view class="form-item">
+        <text class="label">资质证书</text>
+        <view class="upload-area" bindtap="uploadImage" data-field="qualification">
+          <image wx:if="{{authForm.qualification}}" class="uploaded-image" src="{{authForm.qualification}}" mode="aspectFill"></image>
+          <view wx:else class="upload-placeholder">
+            <text class="upload-icon">+</text>
+            <text class="upload-text">点击上传</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <button class="btn-submit" wx:if="{{authStatus !== 'approved'}}" bindtap="submitAuth">提交认证</button>
+  </view>
+</view>

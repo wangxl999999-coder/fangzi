@@ -1,0 +1,35 @@
+<view class="page">
+  <view class="search-section">
+    <input class="search-input" placeholder="搜索城市名" bindinput="onSearch" value="{{searchKeyword}}" />
+  </view>
+
+  <view class="location-section" bindtap="getLocation">
+    <text class="location-icon">📍</text>
+    <text class="location-text">定位当前城市</text>
+    <text class="location-city" wx:if="{{locationCity}}">{{locationCity}}</text>
+  </view>
+
+  <view class="hot-section">
+    <view class="section-title">热门城市</view>
+    <view class="hot-list">
+      <view class="hot-item" wx:for="{{hotCities}}" wx:key="name" bindtap="selectCity" data-city="{{item}}">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="city-list">
+    <view class="city-group" wx:for="{{groupedCities}}" wx:key="letter">
+      <view class="group-letter" id="letter-{{item.letter}}">{{item.letter}}</view>
+      <view class="city-item" wx:for="{{item.list}}" wx:for-item="city" wx:key="name" bindtap="selectCity" data-city="{{city}}">
+        {{city.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="letter-index">
+    <view class="letter-item" wx:for="{{letters}}" wx:key="*this" bindtap="scrollToLetter" data-letter="{{item}}">
+      {{item}}
+    </view>
+  </view>
+</view>
