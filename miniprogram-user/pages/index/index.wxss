@@ -1,0 +1,440 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  padding: 24rpx 24rpx 40rpx;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 12rpx 20rpx;
+  border-radius: 8rpx;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.location-icon {
+  font-size: 28rpx;
+  margin-right: 4rpx;
+}
+
+.location-text {
+  font-size: 26rpx;
+  max-width: 100rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.location-arrow {
+  font-size: 20rpx;
+  margin-left: 4rpx;
+  opacity: 0.8;
+}
+
+.search-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 16rpx 24rpx;
+  border-radius: 40rpx;
+}
+
+.search-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+  opacity: 0.6;
+}
+
+.search-placeholder {
+  color: #999;
+  font-size: 26rpx;
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.banner-section {
+  padding: 24rpx;
+}
+
+.banner-swiper {
+  height: 300rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+}
+
+.category-section {
+  padding: 0 24rpx 24rpx;
+}
+
+.category-grid {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.category-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+}
+
+.icon-text {
+  font-size: 40rpx;
+}
+
+.category-name {
+  font-size: 24rpx;
+  color: #333;
+}
+
+.section {
+  padding: 0 24rpx 24rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.title-icon {
+  margin-right: 8rpx;
+  font-size: 32rpx;
+}
+
+.more {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.house-scroll {
+  white-space: nowrap;
+}
+
+.house-horizontal-list {
+  display: inline-flex;
+  gap: 20rpx;
+  padding-right: 24rpx;
+}
+
+.house-card-horizontal {
+  width: 280rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  display: inline-block;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.house-image {
+  width: 280rpx;
+  height: 180rpx;
+}
+
+.house-info {
+  padding: 16rpx;
+}
+
+.house-title {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+
+.house-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.house-price {
+  font-size: 24rpx;
+}
+
+.community-list {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.community-item {
+  display: flex;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  align-items: center;
+}
+
+.community-item:last-child {
+  border-bottom: none;
+}
+
+.community-image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.community-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.community-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.community-address {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.community-stats {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.community-stats text {
+  margin-right: 20rpx;
+}
+
+.community-price {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.house-list {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.house-card {
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.house-card:last-child {
+  border-bottom: none;
+}
+
+.house-card-content {
+  display: flex;
+  padding: 24rpx;
+}
+
+.house-card-image {
+  width: 220rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.house-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.house-card-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+  line-height: 1.4;
+}
+
+.house-card-desc {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.house-card-address {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.house-card-tags {
+  margin-bottom: 8rpx;
+}
+
+.house-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.house-card-price {
+  font-size: 28rpx;
+}
+
+.house-card-views {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.footer-tip {
+  text-align: center;
+  color: #ccc;
+  font-size: 24rpx;
+  padding: 40rpx;
+}
+
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.search-popup {
+  background: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #eee;
+  gap: 16rpx;
+}
+
+.search-input-popup {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 16rpx 24rpx;
+  border-radius: 40rpx;
+}
+
+.search-input-popup .search-icon {
+  opacity: 0.6;
+}
+
+.input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.clear-icon {
+  font-size: 28rpx;
+  color: #ccc;
+  padding: 0 8rpx;
+}
+
+.cancel-btn {
+  font-size: 28rpx;
+  color: #ff6b6b;
+  flex-shrink: 0;
+}
+
+.search-content {
+  flex: 1;
+  padding: 24rpx;
+  overflow-y: scroll;
+}
+
+.search-section-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.hot-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.hot-tag {
+  padding: 12rpx 24rpx;
+  background: #f5f5f5;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.search-results {
+  margin-top: 20rpx;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.result-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+  opacity: 0.6;
+}
+
+.result-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}

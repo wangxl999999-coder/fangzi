@@ -1,0 +1,263 @@
+<view class="page">
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <view class="filter-item {{sortActive ? 'active' : ''}}" bindtap="toggleSort">
+      <text>{{sortText}}</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item {{filterActive.price ? 'active' : ''}}" bindtap="toggleFilter" data-type="price">
+      <text>价格</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item {{filterActive.area ? 'active' : ''}}" bindtap="toggleFilter" data-type="area">
+      <text>面积</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item {{filterActive.houseType ? 'active' : ''}}" bindtap="toggleFilter" data-type="houseType">
+      <text>户型</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item more" bindtap="showMoreFilter">
+      <text>筛选</text>
+      <text class="icon">⚙</text>
+    </view>
+  </view>
+
+  <!-- 排序下拉 -->
+  <view class="dropdown {{showSort ? 'show' : ''}}" wx:if="{{showSort}}">
+    <view class="dropdown-mask" bindtap="closeDropdown"></view>
+    <view class="dropdown-content">
+      <view class="dropdown-item {{sort === 'latest' ? 'selected' : ''}}" bindtap="selectSort" data-value="latest">
+        <text>最新发布</text>
+        <text class="check" wx:if="{{sort === 'latest'}}">✓</text>
+      </view>
+      <view class="dropdown-item {{sort === 'price_asc' ? 'selected' : ''}}" bindtap="selectSort" data-value="price_asc">
+        <text>价格从低到高</text>
+        <text class="check" wx:if="{{sort === 'price_asc'}}">✓</text>
+      </view>
+      <view class="dropdown-item {{sort === 'price_desc' ? 'selected' : ''}}" bindtap="selectSort" data-value="price_desc">
+        <text>价格从高到低</text>
+        <text class="check" wx:if="{{sort === 'price_desc'}}">✓</text>
+      </view>
+      <view class="dropdown-item {{sort === 'area' ? 'selected' : ''}}" bindtap="selectSort" data-value="area">
+        <text>面积从大到小</text>
+        <text class="check" wx:if="{{sort === 'area'}}">✓</text>
+      </view>
+      <view class="dropdown-item {{sort === 'distance' ? 'selected' : ''}}" bindtap="selectSort" data-value="distance">
+        <text>距离最近</text>
+        <text class="check" wx:if="{{sort === 'distance'}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 价格筛选 -->
+  <view class="dropdown {{showFilter.price ? 'show' : ''}}" wx:if="{{showFilter.price}}">
+    <view class="dropdown-mask" bindtap="closeDropdown"></view>
+    <view class="dropdown-content">
+      <view class="dropdown-item {{filters.priceMin === null && filters.priceMax === null ? 'selected' : ''}}" bindtap="selectPrice" data-min="" data-max="">
+        <text>不限</text>
+        <text class="check" wx:if="{{filters.priceMin === null && filters.priceMax === null}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.priceMin === 0 && filters.priceMax === 100 ? 'selected' : ''}}" bindtap="selectPrice" data-min="0" data-max="100">
+        <text>100万以下</text>
+        <text class="check" wx:if="{{filters.priceMin === 0 && filters.priceMax === 100}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.priceMin === 100 && filters.priceMax === 200 ? 'selected' : ''}}" bindtap="selectPrice" data-min="100" data-max="200">
+        <text>100-200万</text>
+        <text class="check" wx:if="{{filters.priceMin === 100 && filters.priceMax === 200}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.priceMin === 200 && filters.priceMax === 300 ? 'selected' : ''}}" bindtap="selectPrice" data-min="200" data-max="300">
+        <text>200-300万</text>
+        <text class="check" wx:if="{{filters.priceMin === 200 && filters.priceMax === 300}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.priceMin === 300 && filters.priceMax === 500 ? 'selected' : ''}}" bindtap="selectPrice" data-min="300" data-max="500">
+        <text>300-500万</text>
+        <text class="check" wx:if="{{filters.priceMin === 300 && filters.priceMax === 500}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.priceMin === 500 && filters.priceMax === null ? 'selected' : ''}}" bindtap="selectPrice" data-min="500" data-max="">
+        <text>500万以上</text>
+        <text class="check" wx:if="{{filters.priceMin === 500 && filters.priceMax === null}}">✓</text>
+      </view>
+      <view class="price-custom">
+        <input class="price-input" type="digit" placeholder="最低价" value="{{customPriceMin}}" bindinput="onCustomPriceMin" />
+        <text class="price-line">-</text>
+        <input class="price-input" type="digit" placeholder="最高价" value="{{customPriceMax}}" bindinput="onCustomPriceMax" />
+        <text class="price-unit">万</text>
+      </view>
+      <view class="filter-btn" bindtap="applyCustomPrice">确定</view>
+    </view>
+  </view>
+
+  <!-- 面积筛选 -->
+  <view class="dropdown {{showFilter.area ? 'show' : ''}}" wx:if="{{showFilter.area}}">
+    <view class="dropdown-mask" bindtap="closeDropdown"></view>
+    <view class="dropdown-content">
+      <view class="dropdown-item {{filters.areaMin === null && filters.areaMax === null ? 'selected' : ''}}" bindtap="selectArea" data-min="" data-max="">
+        <text>不限</text>
+        <text class="check" wx:if="{{filters.areaMin === null && filters.areaMax === null}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.areaMin === 0 && filters.areaMax === 50 ? 'selected' : ''}}" bindtap="selectArea" data-min="0" data-max="50">
+        <text>50㎡以下</text>
+        <text class="check" wx:if="{{filters.areaMin === 0 && filters.areaMax === 50}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.areaMin === 50 && filters.areaMax === 70 ? 'selected' : ''}}" bindtap="selectArea" data-min="50" data-max="70">
+        <text>50-70㎡</text>
+        <text class="check" wx:if="{{filters.areaMin === 50 && filters.areaMax === 70}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.areaMin === 70 && filters.areaMax === 90 ? 'selected' : ''}}" bindtap="selectArea" data-min="70" data-max="90">
+        <text>70-90㎡</text>
+        <text class="check" wx:if="{{filters.areaMin === 70 && filters.areaMax === 90}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.areaMin === 90 && filters.areaMax === 120 ? 'selected' : ''}}" bindtap="selectArea" data-min="90" data-max="120">
+        <text>90-120㎡</text>
+        <text class="check" wx:if="{{filters.areaMin === 90 && filters.areaMax === 120}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.areaMin === 120 && filters.areaMax === null ? 'selected' : ''}}" bindtap="selectArea" data-min="120" data-max="">
+        <text>120㎡以上</text>
+        <text class="check" wx:if="{{filters.areaMin === 120 && filters.areaMax === null}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 户型筛选 -->
+  <view class="dropdown {{showFilter.houseType ? 'show' : ''}}" wx:if="{{showFilter.houseType}}">
+    <view class="dropdown-mask" bindtap="closeDropdown"></view>
+    <view class="dropdown-content">
+      <view class="dropdown-item {{filters.bedrooms === null ? 'selected' : ''}}" bindtap="selectBedrooms" data-value="">
+        <text>不限</text>
+        <text class="check" wx:if="{{filters.bedrooms === null}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.bedrooms === 1 ? 'selected' : ''}}" bindtap="selectBedrooms" data-value="1">
+        <text>一室</text>
+        <text class="check" wx:if="{{filters.bedrooms === 1}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.bedrooms === 2 ? 'selected' : ''}}" bindtap="selectBedrooms" data-value="2">
+        <text>两室</text>
+        <text class="check" wx:if="{{filters.bedrooms === 2}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.bedrooms === 3 ? 'selected' : ''}}" bindtap="selectBedrooms" data-value="3">
+        <text>三室</text>
+        <text class="check" wx:if="{{filters.bedrooms === 3}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.bedrooms === 4 ? 'selected' : ''}}" bindtap="selectBedrooms" data-value="4">
+        <text>四室</text>
+        <text class="check" wx:if="{{filters.bedrooms === 4}}">✓</text>
+      </view>
+      <view class="dropdown-item {{filters.bedrooms === '5+' ? 'selected' : ''}}" bindtap="selectBedrooms" data-value="5+">
+        <text>五室及以上</text>
+        <text class="check" wx:if="{{filters.bedrooms === '5+'}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 房源列表 -->
+  <scroll-view scroll-y class="house-list" bindscrolltolower="loadMore">
+    <view class="house-item" wx:for="{{houseList}}" wx:key="_id" bindtap="goDetail" data-id="{{item._id}}">
+      <view class="house-content">
+        <image class="house-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+        <view class="house-info">
+          <view class="house-title text-ellipsis-2">{{item.title}}</view>
+          <view class="house-desc">
+            {{item.bedrooms}}室{{item.livingrooms}}厅 · {{item.area}}㎡ · {{item.floor}}
+          </view>
+          <view class="house-address text-ellipsis">
+            {{item.communityName || item.address}}
+          </view>
+          <view class="house-tags">
+            <text class="tag tag-red" wx:if="{{item.isSpecial}}">特价</text>
+            <text class="tag tag-orange" wx:if="{{item.isNew}}">新上</text>
+            <text class="tag tag-blue" wx:if="{{item.isHot}}">热门</text>
+            <text class="tag" wx:if="{{item.decoration}}">{{item.decoration}}</text>
+          </view>
+          <view class="house-footer">
+            <view class="house-price">
+              <text class="price">¥{{item.price}}</text>
+              <text class="price-unit">{{item.priceUnit === 'total' ? '万' : '/月'}}</text>
+            </view>
+            <view class="house-views">
+              <text>👁 {{item.viewCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{houseList.length === 0 && !loading}}">
+      <view class="empty-icon">🏠</view>
+      <view class="empty-text">暂无符合条件的房源</view>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+    <view class="no-more" wx:if="{{noMore && houseList.length > 0}}">— 已经到底了 —</view>
+  </scroll-view>
+
+  <!-- 更多筛选弹窗 -->
+  <view class="more-filter-overlay" wx:if="{{showMoreFilter}}" bindtap="hideMoreFilter">
+    <view class="more-filter-popup" catchtap="stopPropagation">
+      <view class="more-filter-header">
+        <text class="more-filter-title">更多筛选</text>
+        <text class="more-filter-reset" bindtap="resetFilter">重置</text>
+      </view>
+      <scroll-view scroll-y class="more-filter-content">
+        <view class="filter-group">
+          <view class="filter-group-title">楼层</view>
+          <view class="filter-options">
+            <view class="filter-option {{filters.floor.indexOf('low') > -1 ? 'active' : ''}}" bindtap="toggleFloor" data-value="low">低楼层</view>
+            <view class="filter-option {{filters.floor.indexOf('middle') > -1 ? 'active' : ''}}" bindtap="toggleFloor" data-value="middle">中楼层</view>
+            <view class="filter-option {{filters.floor.indexOf('high') > -1 ? 'active' : ''}}" bindtap="toggleFloor" data-value="high">高楼层</view>
+            <view class="filter-option {{filters.floor.indexOf('ground') > -1 ? 'active' : ''}}" bindtap="toggleFloor" data-value="ground">底层</view>
+            <view class="filter-option {{filters.floor.indexOf('top') > -1 ? 'active' : ''}}" bindtap="toggleFloor" data-value="top">顶层</view>
+          </view>
+        </view>
+
+        <view class="filter-group">
+          <view class="filter-group-title">装修</view>
+          <view class="filter-options">
+            <view class="filter-option {{filters.decoration.indexOf('毛坯') > -1 ? 'active' : ''}}" bindtap="toggleDecoration" data-value="毛坯">毛坯</view>
+            <view class="filter-option {{filters.decoration.indexOf('简装') > -1 ? 'active' : ''}}" bindtap="toggleDecoration" data-value="简装">简装</view>
+            <view class="filter-option {{filters.decoration.indexOf('精装') > -1 ? 'active' : ''}}" bindtap="toggleDecoration" data-value="精装">精装</view>
+            <view class="filter-option {{filters.decoration.indexOf('豪装') > -1 ? 'active' : ''}}" bindtap="toggleDecoration" data-value="豪装">豪装</view>
+          </view>
+        </view>
+
+        <view class="filter-group">
+          <view class="filter-group-title">配套设施</view>
+          <view class="filter-options">
+            <view class="filter-option {{filters.facilities.indexOf('空调') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="空调">空调</view>
+            <view class="filter-option {{filters.facilities.indexOf('洗衣机') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="洗衣机">洗衣机</view>
+            <view class="filter-option {{filters.facilities.indexOf('冰箱') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="冰箱">冰箱</view>
+            <view class="filter-option {{filters.facilities.indexOf('热水器') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="热水器">热水器</view>
+            <view class="filter-option {{filters.facilities.indexOf('宽带') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="宽带">宽带</view>
+            <view class="filter-option {{filters.facilities.indexOf('天然气') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="天然气">天然气</view>
+            <view class="filter-option {{filters.facilities.indexOf('电梯') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="电梯">电梯</view>
+            <view class="filter-option {{filters.facilities.indexOf('车位') > -1 ? 'active' : ''}}" bindtap="toggleFacility" data-value="车位">车位</view>
+          </view>
+        </view>
+
+        <view class="filter-group">
+          <view class="filter-group-title">产权</view>
+          <view class="filter-options">
+            <view class="filter-option {{filters.propertyType === '商品房' ? 'active' : ''}}" bindtap="selectProperty" data-value="商品房">商品房</view>
+            <view class="filter-option {{filters.propertyType === '公寓' ? 'active' : ''}}" bindtap="selectProperty" data-value="公寓">公寓</view>
+            <view class="filter-option {{filters.propertyType === '回迁房' ? 'active' : ''}}" bindtap="selectProperty" data-value="回迁房">回迁房</view>
+            <view class="filter-option {{filters.propertyType === '经济适用房' ? 'active' : ''}}" bindtap="selectProperty" data-value="经济适用房">经济适用房</view>
+          </view>
+        </view>
+
+        <view class="filter-group">
+          <view class="filter-group-title">朝向</view>
+          <view class="filter-options">
+            <view class="filter-option {{filters.orientation.indexOf('南') > -1 ? 'active' : ''}}" bindtap="toggleOrientation" data-value="南">朝南</view>
+            <view class="filter-option {{filters.orientation.indexOf('北') > -1 ? 'active' : ''}}" bindtap="toggleOrientation" data-value="北">朝北</view>
+            <view class="filter-option {{filters.orientation.indexOf('东') > -1 ? 'active' : ''}}" bindtap="toggleOrientation" data-value="东">朝东</view>
+            <view class="filter-option {{filters.orientation.indexOf('西') > -1 ? 'active' : ''}}" bindtap="toggleOrientation" data-value="西">朝西</view>
+            <view class="filter-option {{filters.orientation.indexOf('南北') > -1 ? 'active' : ''}}" bindtap="toggleOrientation" data-value="南北">南北通透</view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="more-filter-footer">
+        <button class="btn btn-primary" bindtap="applyMoreFilter">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

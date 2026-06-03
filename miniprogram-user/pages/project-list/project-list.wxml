@@ -1,0 +1,58 @@
+<view class="page">
+  <view class="filter-bar">
+    <view class="filter-item" bindtap="toggleFilter">
+      <text>筛选</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item">
+      <text>价格</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item">
+      <text>户型</text>
+      <text class="arrow">▼</text>
+    </view>
+    <view class="filter-item">
+      <text>更多</text>
+      <text class="arrow">▼</text>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="project-list" bindscrolltolower="loadMore">
+    <view class="project-card" wx:for="{{projectList}}" wx:key="_id" bindtap="goDetail" data-id="{{item._id}}">
+      <image class="project-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+      <view class="project-info">
+        <view class="project-title">
+          {{item.name}}
+          <text class="tag tag-red" wx:if="{{item.isHot}}">热卖</text>
+          <text class="tag tag-orange" wx:if="{{item.isNew}}">新盘</text>
+        </view>
+        <view class="project-price">
+          <text class="price">¥{{item.price}}</text>
+          <text class="price-unit">元/㎡</text>
+          <text class="price-total" wx:if="{{item.totalPriceStart}}">总价{{item.totalPriceStart}}万起</text>
+        </view>
+        <view class="project-desc">
+          <text>{{item.saleStatus}}</text>
+          <text>·</text>
+          <text>{{item.city}} {{item.district}}</text>
+        </view>
+        <view class="project-house-types">
+          <text class="tag tag-blue" wx:for="{{item.houseType}}" wx:for-item="ht" wx:key="name">
+            {{ht.bedrooms}}室{{ht.area}}㎡
+          </text>
+        </view>
+        <view class="project-features">
+          <text class="tag" wx:for="{{item.features}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{projectList.length === 0 && !loading}}">
+      <text>暂无新房数据</text>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+    <view class="no-more" wx:if="{{noMore && projectList.length > 0}}">— 已经到底了 —</view>
+  </scroll-view>
+</view>

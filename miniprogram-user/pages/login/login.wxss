@@ -1,0 +1,165 @@
+.page {
+  padding: 60rpx 48rpx;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 80rpx;
+}
+
+.logo {
+  font-size: 120rpx;
+  margin-bottom: 24rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.form-section {
+  margin-bottom: 48rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #eee;
+  margin-bottom: 32rpx;
+  padding-bottom: 16rpx;
+}
+
+.prefix {
+  font-size: 32rpx;
+  color: #333;
+  margin-right: 16rpx;
+}
+
+.phone-input {
+  flex: 1;
+  height: 80rpx;
+  font-size: 32rpx;
+}
+
+.code-input {
+  flex: 1;
+  height: 80rpx;
+  font-size: 32rpx;
+}
+
+.code-btn {
+  height: 64rpx;
+  line-height: 64rpx;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  background: #f5f5f5;
+  color: #ff6b6b;
+  border-radius: 32rpx;
+  margin: 0;
+}
+
+.code-btn.disabled {
+  color: #ccc;
+}
+
+.code-btn::after {
+  border: none;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 48rpx;
+}
+
+.checkbox {
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 6rpx;
+  margin-right: 12rpx;
+  text-align: center;
+  line-height: 28rpx;
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.checkbox.checked {
+  background: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.agreement-text {
+  color: #999;
+}
+
+.link {
+  color: #ff6b6b;
+  margin: 0 4rpx;
+}
+
+.login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #ff6b6b;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 44rpx;
+  margin-bottom: 60rpx;
+}
+
+.login-btn::after {
+  border: none;
+}
+
+.other-login {
+  text-align: center;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 48rpx;
+}
+
+.line {
+  flex: 1;
+  height: 1rpx;
+  background: #eee;
+}
+
+.text {
+  padding: 0 24rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.wx-login {
+  display: inline-flex;
+  align-items: center;
+  padding: 20rpx 48rpx;
+  border: 1rpx solid #eee;
+  border-radius: 44rpx;
+}
+
+.wx-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+.wx-text {
+  font-size: 28rpx;
+  color: #333;
+}

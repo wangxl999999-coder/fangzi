@@ -1,0 +1,77 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/house-list/house-list",
+    "pages/house-detail/house-detail",
+    "pages/project-list/project-list",
+    "pages/project-detail/project-detail",
+    "pages/tools/tools",
+    "pages/mortgage/mortgage",
+    "pages/estimate/estimate",
+    "pages/policy/policy",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/favorites/favorites",
+    "pages/history/history",
+    "pages/demand-publish/demand-publish",
+    "pages/messages/messages",
+    "pages/city-select/city-select",
+    "pages/appointment/appointment"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "找房网",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff6b6b",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/project-list/project-list",
+        "text": "新房",
+        "iconPath": "images/tab/new.png",
+        "selectedIconPath": "images/tab/new-active.png"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "工具",
+        "iconPath": "images/tab/tool.png",
+        "selectedIconPath": "images/tab/tool-active.png"
+      },
+      {
+        "pagePath": "pages/messages/messages",
+        "text": "消息",
+        "iconPath": "images/tab/message.png",
+        "selectedIconPath": "images/tab/message-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab/profile.png",
+        "selectedIconPath": "images/tab/profile-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位城市和推荐附近房源"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

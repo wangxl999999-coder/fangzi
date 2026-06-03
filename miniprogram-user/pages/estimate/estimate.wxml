@@ -1,0 +1,89 @@
+<view class="page">
+  <view class="form-section">
+    <view class="form-item">
+      <text class="label">选择小区</text>
+      <picker bindchange="onCommunityChange" range="{{communities}}" range-key="name">
+        <view class="picker">{{selectedCommunity ? selectedCommunity.name : '请选择小区'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="label">房屋面积（㎡）</text>
+      <input class="input" type="digit" placeholder="请输入" value="{{form.area}}" bindinput="onInput" data-field="area" />
+    </view>
+    <view class="form-item">
+      <text class="label">户型</text>
+      <view class="radio-group">
+        <view class="radio-item {{form.bedrooms === '1' ? 'active' : ''}}" bindtap="selectBedroom" data-value="1">1室</view>
+        <view class="radio-item {{form.bedrooms === '2' ? 'active' : ''}}" bindtap="selectBedroom" data-value="2">2室</view>
+        <view class="radio-item {{form.bedrooms === '3' ? 'active' : ''}}" bindtap="selectBedroom" data-value="3">3室</view>
+        <view class="radio-item {{form.bedrooms === '4' ? 'active' : ''}}" bindtap="selectBedroom" data-value="4">4室+</view>
+      </view>
+    </view>
+    <view class="form-item">
+      <text class="label">楼层</text>
+      <view class="radio-group">
+        <view class="radio-item {{form.floor === 'low' ? 'active' : ''}}" bindtap="selectFloor" data-value="low">低楼层</view>
+        <view class="radio-item {{form.floor === 'mid' ? 'active' : ''}}" bindtap="selectFloor" data-value="mid">中楼层</view>
+        <view class="radio-item {{form.floor === 'high' ? 'active' : ''}}" bindtap="selectFloor" data-value="high">高楼层</view>
+      </view>
+    </view>
+    <view class="form-item">
+      <text class="label">装修</text>
+      <view class="radio-group">
+        <view class="radio-item {{form.decoration === 'rough' ? 'active' : ''}}" bindtap="selectDecoration" data-value="rough">毛坯</view>
+        <view class="radio-item {{form.decoration === 'simple' ? 'active' : ''}}" bindtap="selectDecoration" data-value="simple">简装</view>
+        <view class="radio-item {{form.decoration === 'fine' ? 'active' : ''}}" bindtap="selectDecoration" data-value="fine">精装</view>
+      </view>
+    </view>
+  </view>
+
+  <button class="btn-estimate" bindtap="estimate">开始估价</button>
+
+  <view class="result-section" wx:if="{{result.show}}">
+    <view class="result-card">
+      <view class="result-title">估价结果</view>
+      <view class="result-price">
+        <text class="price">¥{{result.totalPrice}}</text>
+        <text class="unit">万</text>
+      </view>
+      <view class="result-unit-price">
+        单价约 ¥{{result.unitPrice}} 元/㎡
+      </view>
+      <view class="result-range">
+        估值区间：¥{{result.minPrice}}万 - ¥{{result.maxPrice}}万
+      </view>
+    </view>
+
+    <view class="factors-section">
+      <view class="factors-title">影响因素</view>
+      <view class="factor-item">
+        <text class="factor-name">地段位置</text>
+        <view class="factor-bar">
+          <view class="factor-progress" style="width: 85%"></view>
+        </view>
+        <text class="factor-score">8.5</text>
+      </view>
+      <view class="factor-item">
+        <text class="factor-name">小区配套</text>
+        <view class="factor-bar">
+          <view class="factor-progress" style="width: 80%"></view>
+        </view>
+        <text class="factor-score">8.0</text>
+      </view>
+      <view class="factor-item">
+        <text class="factor-name">交通便利</text>
+        <view class="factor-bar">
+          <view class="factor-progress" style="width: 75%"></view>
+        </view>
+        <text class="factor-score">7.5</text>
+      </view>
+      <view class="factor-item">
+        <text class="factor-name">房屋状况</text>
+        <view class="factor-bar">
+          <view class="factor-progress" style="width: {{result.conditionScore}}%"></view>
+        </view>
+        <text class="factor-score">{{result.conditionScore / 10}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,71 @@
+<view class="page">
+  <view class="form-section">
+    <view class="form-item">
+      <text class="label">贷款金额（万元）</text>
+      <input class="input" type="digit" placeholder="请输入" value="{{form.amount}}" bindinput="onInput" data-field="amount" />
+    </view>
+    <view class="form-item">
+      <text class="label">贷款年限（年）</text>
+      <input class="input" type="number" placeholder="请输入" value="{{form.years}}" bindinput="onInput" data-field="years" />
+    </view>
+    <view class="form-item">
+      <text class="label">年利率（%）</text>
+      <input class="input" type="digit" placeholder="3.85" value="{{form.rate}}" bindinput="onInput" data-field="rate" />
+    </view>
+    <view class="form-item">
+      <text class="label">还款方式</text>
+      <view class="radio-group">
+        <view class="radio-item {{form.type === 'equal' ? 'active' : ''}}" bindtap="selectType" data-type="equal">
+          <text class="radio"></text>
+          <text>等额本息</text>
+        </view>
+        <view class="radio-item {{form.type === 'principal' ? 'active' : ''}}" bindtap="selectType" data-type="principal">
+          <text class="radio"></text>
+          <text>等额本金</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <button class="btn-calc" bindtap="calculate">开始计算</button>
+
+  <view class="result-section" wx:if="{{result.show}}">
+    <view class="result-card">
+      <view class="result-item">
+        <text class="result-label">每月还款</text>
+        <text class="result-value">¥{{result.monthlyPayment}}</text>
+      </view>
+      <view class="result-item">
+        <text class="result-label">支付利息</text>
+        <text class="result-value">¥{{result.totalInterest}}</text>
+      </view>
+      <view class="result-item">
+        <text class="result-label">还款总额</text>
+        <text class="result-value">¥{{result.totalPayment}}</text>
+      </view>
+    </view>
+
+    <view class="detail-header" bindtap="toggleDetail">
+      <text class="detail-title">还款明细</text>
+      <text class="detail-arrow">{{showDetail ? '▲' : '▼'}}</text>
+    </view>
+    <view class="detail-list" wx:if="{{showDetail}}">
+      <view class="detail-item header">
+        <text>期数</text>
+        <text>月供</text>
+        <text>本金</text>
+        <text>利息</text>
+        <text>剩余</text>
+      </view>
+      <scroll-view scroll-y class="detail-scroll">
+        <view class="detail-item" wx:for="{{result.details}}" wx:key="month">
+          <text>{{item.month}}</text>
+          <text>{{item.payment}}</text>
+          <text>{{item.principal}}</text>
+          <text>{{item.interest}}</text>
+          <text>{{item.remaining}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

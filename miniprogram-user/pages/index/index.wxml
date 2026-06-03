@@ -1,0 +1,189 @@
+<view class="page">
+  <!-- 顶部搜索区 -->
+  <view class="header">
+    <view class="search-bar">
+      <view class="location" bindtap="goCitySelect">
+        <text class="location-icon">📍</text>
+        <text class="location-text">{{currentCity}}</text>
+        <text class="location-arrow">▼</text>
+      </view>
+      <view class="search-input" bindtap="goSearch">
+        <text class="search-icon">🔍</text>
+        <text class="search-placeholder">搜索小区名、房源地址、户型</text>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="content">
+    <!-- 轮播图 -->
+    <view class="banner-section">
+      <swiper class="banner-swiper" indicator-dots autoplay circular interval="3000" duration="500">
+        <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="goBannerDetail" data-item="{{item}}">
+          <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <!-- 分类导航 -->
+    <view class="category-section">
+      <view class="category-grid">
+        <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="goCategory" data-item="{{item}}">
+          <view class="category-icon" style="background: {{item.color}}20;">
+            <text class="icon-text">{{item.icon}}</text>
+          </view>
+          <text class="category-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 专区功能 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">💰</text>
+          <text>特价捡漏</text>
+        </view>
+        <view class="more" bindtap="goList" data-type="special">更多 ></view>
+      </view>
+      <scroll-view scroll-x class="house-scroll" show-scrollbar="{{false}}">
+        <view class="house-horizontal-list">
+          <view class="house-card-horizontal" wx:for="{{specialHouses}}" wx:key="_id" bindtap="goHouseDetail" data-id="{{item._id}}">
+            <image class="house-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+            <view class="house-info">
+              <view class="house-title text-ellipsis">{{item.title}}</view>
+              <view class="house-desc">
+                {{item.bedrooms}}室{{item.livingrooms}}厅 · {{item.area}}㎡ · {{item.floor}}
+              </view>
+              <view class="house-price">
+                <text class="price">¥{{item.price}}</text>
+                <text class="price-unit">{{item.priceUnit === 'total' ? '万' : '/月'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">✨</text>
+          <text>新上房源</text>
+        </view>
+        <view class="more" bindtap="goList" data-type="new">更多 ></view>
+      </view>
+      <scroll-view scroll-x class="house-scroll" show-scrollbar="{{false}}">
+        <view class="house-horizontal-list">
+          <view class="house-card-horizontal" wx:for="{{newHouses}}" wx:key="_id" bindtap="goHouseDetail" data-id="{{item._id}}">
+            <image class="house-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+            <view class="house-info">
+              <view class="house-title text-ellipsis">{{item.title}}</view>
+              <view class="house-desc">
+                {{item.bedrooms}}室{{item.livingrooms}}厅 · {{item.area}}㎡ · {{item.floor}}
+              </view>
+              <view class="house-price">
+                <text class="price">¥{{item.price}}</text>
+                <text class="price-unit">{{item.priceUnit === 'total' ? '万' : '/月'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">🔥</text>
+          <text>热门小区</text>
+        </view>
+        <view class="more" bindtap="goCommunityList">更多 ></view>
+      </view>
+      <view class="community-list">
+        <view class="community-item" wx:for="{{hotCommunities}}" wx:key="_id" bindtap="goCommunityDetail" data-id="{{item._id}}">
+          <image class="community-image" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="community-info">
+            <view class="community-name">{{item.name}}</view>
+            <view class="community-address text-ellipsis">{{item.address}}</view>
+            <view class="community-stats">
+              <text>在售 {{item.houseCount}}套</text>
+              <text>在租 {{item.rentCount}}套</text>
+            </view>
+          </view>
+          <view class="community-price">
+            <text class="price">{{item.averagePrice}}</text>
+            <text class="price-unit">元/㎡</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">🏠</text>
+          <text>为你推荐</text>
+        </view>
+      </view>
+      <view class="house-list">
+        <view class="house-card" wx:for="{{recommendHouses}}" wx:key="_id" bindtap="goHouseDetail" data-id="{{item._id}}">
+          <view class="house-card-content">
+            <image class="house-card-image" src="{{item.images[0]}}" mode="aspectFill"></image>
+            <view class="house-card-info">
+              <view class="house-card-title text-ellipsis-2">{{item.title}}</view>
+              <view class="house-card-desc">
+                {{item.bedrooms}}室{{item.livingrooms}}厅 · {{item.area}}㎡ · {{item.floor}}
+              </view>
+              <view class="house-card-address text-ellipsis">{{item.communityName}} · {{item.district}}</view>
+              <view class="house-card-tags">
+                <text class="tag tag-red" wx:if="{{item.isSpecial}}">特价</text>
+                <text class="tag tag-orange" wx:if="{{item.isNew}}">新上</text>
+                <text class="tag tag-blue" wx:if="{{item.isHot}}">热门</text>
+                <text class="tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+              </view>
+              <view class="house-card-footer">
+                <view class="house-card-price">
+                  <text class="price">¥{{item.price}}</text>
+                  <text class="price-unit">{{item.priceUnit === 'total' ? '万' : '/月'}}</text>
+                </view>
+                <view class="house-card-views">
+                  <text>👁 {{item.viewCount}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="footer-tip">— 已经到底了 —</view>
+  </scroll-view>
+
+  <!-- 搜索遮罩层 -->
+  <view class="search-overlay" wx:if="{{showSearch}}" bindtap="closeSearch">
+    <view class="search-popup" catchtap="stopPropagation">
+      <view class="search-header">
+        <view class="search-input-popup">
+          <text class="search-icon">🔍</text>
+          <input class="input" placeholder="搜索小区名、房源地址、户型" value="{{searchKeyword}}" bindinput="onSearchInput" focus="{{showSearch}}" confirm-type="search" bindconfirm="doSearch" />
+          <text class="clear-icon" wx:if="{{searchKeyword}}" bindtap="clearSearch">✕</text>
+        </view>
+        <text class="cancel-btn" bindtap="closeSearch">取消</text>
+      </view>
+      <view class="search-content">
+        <view class="search-hot" wx:if="{{hotSearches.length > 0}}">
+          <view class="search-section-title">热门搜索</view>
+          <view class="hot-tags">
+            <text class="hot-tag" wx:for="{{hotSearches}}" wx:key="*this" bindtap="onHotSearch" data-keyword="{{item}}">{{item}}</text>
+          </view>
+        </view>
+        <view class="search-results" wx:if="{{searchKeyword && searchResults.length > 0}}">
+          <view class="search-result-item" wx:for="{{searchResults}}" wx:key="_id" bindtap="goHouseDetail" data-id="{{item._id}}">
+            <text class="result-icon">🏠</text>
+            <text class="result-text">{{item.title}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

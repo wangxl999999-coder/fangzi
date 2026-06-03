@@ -1,0 +1,76 @@
+<view class="page">
+  <scroll-view scroll-y class="content">
+    <swiper class="image-swiper" indicator-dots autoplay circular>
+      <swiper-item wx:for="{{project.images}}" wx:key="*this">
+        <image class="swiper-image" src="{{item}}" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+
+    <view class="section">
+      <view class="project-name">{{project.name}}</view>
+      <view class="project-price">
+        <text class="price">¥{{project.price}}</text>
+        <text class="price-unit">元/㎡</text>
+      </view>
+      <view class="project-info">
+        <text class="tag tag-red">{{project.saleStatus}}</text>
+        <text class="tag tag-orange" wx:if="{{project.isHot}}">热卖楼盘</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">基本信息</view>
+      <view class="info-grid">
+        <view class="info-item"><text class="label">总价</text><text class="value">{{project.totalPriceStart}}万起</text></view>
+        <view class="info-item"><text class="label">建面</text><text class="value">{{project.areaRange?.min}}-{{project.areaRange?.max}}㎡</text></view>
+        <view class="info-item"><text class="label">开发商</text><text class="value">{{project.developer}}</text></view>
+        <view class="info-item"><text class="label">产权</text><text class="value">{{project.propertyYears}}年</text></view>
+        <view class="info-item"><text class="label">交房</text><text class="value">{{project.deliverDate}}</text></view>
+        <view class="info-item"><text class="label">装修</text><text class="value">{{project.decoration}}</text></view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">户型介绍</view>
+      <view class="house-type-list">
+        <view class="house-type-item" wx:for="{{project.houseType}}" wx:key="name">
+          <view class="house-type-info">
+            <view class="house-type-name">{{item.name}} · {{item.bedrooms}}室{{item.livingrooms}}厅</view>
+            <view class="house-type-area">{{item.area}}㎡</view>
+            <view class="house-type-price">约{{item.price}}万</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{project.description}}">
+      <view class="section-title">楼盘介绍</view>
+      <view class="desc">{{project.description}}</view>
+    </view>
+
+    <view class="section" wx:if="{{project.facilities}}">
+      <view class="section-title">配套设施</view>
+      <view class="facilities">
+        <text class="tag tag-blue" wx:for="{{project.facilities}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">位置周边</view>
+      <view class="address">{{project.address}}</view>
+      <view class="peripheral" wx:if="{{project.surrounding}}">
+        <view class="peripheral-item" wx:for="{{project.surrounding}}" wx:key="name">
+          <text>{{item.name}}</text>
+          <text class="distance">{{item.distance}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-space"></view>
+  </scroll-view>
+
+  <view class="bottom-bar">
+    <button class="btn btn-secondary" bindtap="callAgent">📞 咨询</button>
+    <button class="btn btn-primary" bindtap="goAppointment">预约看房</button>
+  </view>
+</view>

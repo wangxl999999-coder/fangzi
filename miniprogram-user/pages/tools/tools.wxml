@@ -1,0 +1,37 @@
+<view class="page">
+  <view class="tools-grid">
+    <view class="tool-card" bindtap="goTool" data-url="/pages/mortgage/mortgage">
+      <view class="tool-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📊</view>
+      <view class="tool-name">房贷计算器</view>
+      <view class="tool-desc">计算月供、总利息</view>
+    </view>
+    <view class="tool-card" bindtap="goTool" data-url="/pages/estimate/estimate">
+      <view class="tool-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">💰</view>
+      <view class="tool-name">房价估价</view>
+      <view class="tool-desc">智能评估房屋价值</view>
+    </view>
+    <view class="tool-card" bindtap="goTool" data-url="/pages/policy/policy">
+      <view class="tool-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">📋</view>
+      <view class="tool-name">政策查询</view>
+      <view class="tool-desc">购房落户政策</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">常用计算</view>
+    <view class="calc-list">
+      <view class="calc-item">
+        <text class="calc-name">提前还款计算</text>
+        <text class="calc-arrow">></text>
+      </view>
+      <view class="calc-item">
+        <text class="calc-name">税费计算</text>
+        <text class="calc-arrow">></text>
+      </view>
+      <view class="calc-item">
+        <text class="calc-name">公积金贷款计算</text>
+        <text class="calc-arrow">></text>
+      </view>
+    </view>
+  </view>
+</view>

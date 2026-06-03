@@ -1,0 +1,51 @@
+<view class="page">
+  <view class="tabs">
+    <view class="tab {{activeTab === 'buy' ? 'active' : ''}}" bindtap="switchTab" data-tab="buy">购房政策</view>
+    <view class="tab {{activeTab === 'settle' ? 'active' : ''}}" bindtap="switchTab" data-tab="settle">落户政策</view>
+  </view>
+
+  <view class="search-box">
+    <input class="search-input" placeholder="搜索政策关键词" bindconfirm="onSearch" />
+  </view>
+
+  <view class="policy-list" wx:if="{{activeTab === 'buy'}}">
+    <view class="policy-card" wx:for="{{buyPolicies}}" wx:key="id" bindtap="viewPolicy" data-id="{{item.id}}">
+      <view class="policy-tag">{{item.tag}}</view>
+      <view class="policy-title">{{item.title}}</view>
+      <view class="policy-desc">{{item.description}}</view>
+      <view class="policy-footer">
+        <text class="policy-date">{{item.date}}</text>
+        <text class="policy-arrow">查看详情 ></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="policy-list" wx:if="{{activeTab === 'settle'}}">
+    <view class="policy-card" wx:for="{{settlePolicies}}" wx:key="id" bindtap="viewPolicy" data-id="{{item.id}}">
+      <view class="policy-tag">{{item.tag}}</view>
+      <view class="policy-title">{{item.title}}</view>
+      <view class="policy-desc">{{item.description}}</view>
+      <view class="policy-footer">
+        <text class="policy-date">{{item.date}}</text>
+        <text class="policy-arrow">查看详情 ></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="policy-detail" wx:if="{{selectedPolicy}}">
+    <view class="detail-overlay" bindtap="closeDetail"></view>
+    <view class="detail-popup">
+      <view class="detail-header">
+        <text class="detail-title">{{selectedPolicy.title}}</text>
+        <text class="detail-close" bindtap="closeDetail">✕</text>
+      </view>
+      <scroll-view scroll-y class="detail-content">
+        <view class="detail-meta">
+          <text class="detail-tag">{{selectedPolicy.tag}}</text>
+          <text class="detail-date">发布时间：{{selectedPolicy.date}}</text>
+        </view>
+        <view class="detail-body">{{selectedPolicy.content}}</view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

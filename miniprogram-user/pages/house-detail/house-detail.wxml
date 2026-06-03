@@ -1,0 +1,285 @@
+<view class="page">
+  <scroll-view scroll-y class="content" bindscroll="onScroll">
+    <!-- 图片轮播 -->
+    <view class="swiper-container">
+      <swiper class="image-swiper" indicator-dots autoplay circular interval="4000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
+        <swiper-item wx:for="{{house.images}}" wx:key="*this" bindtap="previewImage" data-index="{{index}}">
+          <image class="swiper-image" src="{{item}}" mode="aspectFill"></image>
+        </swiper-item>
+      </swiper>
+      <view class="swiper-counter">{{currentImageIndex + 1}}/{{house.images.length}}</view>
+      <view class="media-tabs">
+        <view class="media-tab {{activeTab === 'image' ? 'active' : ''}}" bindtap="switchTab" data-tab="image">
+          <text>图集</text>
+          <text class="count">{{house.images.length}}</text>
+        </view>
+        <view class="media-tab {{activeTab === 'vr' ? 'active' : ''}}" bindtap="switchTab" data-tab="vr" wx:if="{{house.vrUrl}}">
+          <text>VR</text>
+          <text class="vr-badge">360°</text>
+        </view>
+        <view class="media-tab {{activeTab === 'video' ? 'active' : ''}}" bindtap="switchTab" data-tab="video" wx:if="{{house.videoUrl}}">
+          <text>视频</text>
+          <text class="play-icon">▶</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- VR视图 -->
+    <view class="vr-container" wx:if="{{activeTab === 'vr' && house.vrUrl}}">
+      <web-view src="{{house.vrUrl}}" class="vr-view"></web-view>
+    </view>
+
+    <!-- 视频视图 -->
+    <view class="video-container" wx:if="{{activeTab === 'video' && house.videoUrl}}">
+      <video class="video-player" src="{{house.videoUrl}}" controls autoplay="{{false}}"></video>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="section price-section">
+      <view class="price-info">
+        <view class="price">
+          <text class="price-number">¥{{house.price}}</text>
+          <text class="price-unit">{{house.priceUnit === 'total' ? '万' : '/月'}}</text>
+        </view>
+        <view class="price-desc" wx:if="{{house.priceUnit === 'total'}}">
+          单价约 {{Math.round(house.price * 10000 / house.area)}}元/㎡
+        </view>
+        <view class="price-desc" wx:if="{{house.rentDeposit}}">
+          {{house.rentDeposit}} · {{house.rentPayment}}
+        </view>
+      </view>
+      <view class="house-tags">
+        <text class="tag tag-red" wx:if="{{house.isSpecial}}">特价</text>
+        <text class="tag tag-orange" wx:if="{{house.isNew}}">新上</text>
+        <text class="tag tag-blue" wx:if="{{house.isHot}}">热门</text>
+        <text class="tag" wx:for="{{house.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 房源标题 -->
+    <view class="section title-section">
+      <view class="house-title">{{house.title}}</view>
+      <view class="house-meta">
+        <text>👁 {{house.viewCount}}次浏览</text>
+        <text>⭐ {{house.favoriteCount}}人收藏</text>
+        <text>📅 {{formatTime(house.createdAt)}}</text>
+      </view>
+    </view>
+
+    <!-- 户型信息 -->
+    <view class="section info-section">
+      <view class="section-title">基本信息</view>
+      <view class="info-grid">
+        <view class="info-item">
+          <text class="info-label">户型</text>
+          <text class="info-value">{{house.bedrooms}}室{{house.livingrooms}}厅{{house.bathrooms}}卫</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">面积</text>
+          <text class="info-value">{{house.area}}㎡</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">楼层</text>
+          <text class="info-value">{{house.floor}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">朝向</text>
+          <text class="info-value">{{house.orientation || '暂无'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">装修</text>
+          <text class="info-value">{{house.decoration}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">建成</text>
+          <text class="info-value">{{house.buildYear || '暂无'}}年</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">产权</text>
+          <text class="info-value">{{house.propertyYears || 70}}年</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">类型</text>
+          <text class="info-value">{{house.propertyType || '商品房'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 房源特色 -->
+    <view class="section features-section" wx:if="{{house.features && house.features.length > 0}}">
+      <view class="section-title">房源特色</view>
+      <view class="features-list">
+        <view class="feature-item" wx:for="{{house.features}}" wx:key="*this">
+          <text class="feature-icon">✓</text>
+          <text class="feature-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 配套设施 -->
+    <view class="section facilities-section" wx:if="{{house.facilities && house.facilities.length > 0}}">
+      <view class="section-title">配套设施</view>
+      <view class="facilities-grid">
+        <view class="facility-item" wx:for="{{house.facilities}}" wx:key="*this">
+          <text class="facility-icon">{{getFacilityIcon(item)}}</text>
+          <text class="facility-name">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 房源描述 -->
+    <view class="section desc-section" wx:if="{{house.description}}">
+      <view class="section-title">房源描述</view>
+      <view class="desc-content {{showFullDesc ? '' : 'collapsed'}}">{{house.description}}</view>
+      <view class="desc-more" bindtap="toggleDesc" wx:if="{{house.description.length > 200}}">
+        {{showFullDesc ? '收起' : '展开全部'}}
+        <text class="arrow">{{showFullDesc ? '▲' : '▼'}}</text>
+      </view>
+    </view>
+
+    <!-- 小区信息 -->
+    <view class="section community-section" wx:if="{{house.community || house.communityName}}">
+      <view class="section-title">小区信息</view>
+      <view class="community-card" bindtap="goCommunityDetail" data-id="{{house.community}}">
+        <image class="community-image" src="{{house.community?.image || house.images[0]}}" mode="aspectFill"></image>
+        <view class="community-info">
+          <view class="community-name">{{house.community?.name || house.communityName}}</view>
+          <view class="community-address">{{house.address}}</view>
+          <view class="community-stats" wx:if="{{house.community}}">
+            <text>均价 {{house.community.averagePrice}}元/㎡</text>
+            <text>在售 {{house.community.houseCount}}套</text>
+          </view>
+        </view>
+        <text class="community-arrow">></text>
+      </view>
+      <view class="community-facilities" wx:if="{{house.community?.facilities}}">
+        <text class="tag tag-blue" wx:for="{{house.community.facilities}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 位置地图 -->
+    <view class="section location-section">
+      <view class="section-title">位置及周边</view>
+      <view class="map-container" bindtap="openMap">
+        <view class="map-placeholder">
+          <text class="map-icon">📍</text>
+          <text class="map-address">{{house.address}}</text>
+          <text class="map-hint">点击查看地图</text>
+        </view>
+      </view>
+      <view class="peripheral-list" wx:if="{{house.community?.surrounding}}">
+        <view class="peripheral-item" wx:for="{{house.community.surrounding}}" wx:key="name">
+          <text class="peripheral-name">{{item.name}}</text>
+          <text class="peripheral-type">{{item.type}}</text>
+          <text class="peripheral-distance">{{item.distance}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 房东/经纪人信息 -->
+    <view class="section agent-section">
+      <view class="section-title">联系人</view>
+      <view class="agent-card">
+        <image class="agent-avatar" src="{{house.owner?.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="agent-info">
+          <view class="agent-name">
+            {{house.owner?.realName || house.contactName}}
+            <text class="agent-badge" wx:if="{{house.ownerType === 'agent'}}">经纪人</text>
+            <text class="agent-badge landlord" wx:if="{{house.ownerType === 'landlord'}}">房东</text>
+          </view>
+          <view class="agent-company" wx:if="{{house.owner?.company}}">{{house.owner.company}}</view>
+          <view class="agent-stats">
+            <text>发布房源 {{house.owner?.houseCount || 0}}套</text>
+            <text wx:if="{{house.owner?.authStatus === 'approved'}}">✓ 已认证</text>
+          </view>
+        </view>
+        <view class="agent-actions">
+          <button class="action-btn call" bindtap="callAgent">
+            <text class="btn-icon">📞</text>
+          </button>
+          <button class="action-btn chat" open-type="contact" wx:if="{{house.ownerType === 'agent'}}">
+            <text class="btn-icon">💬</text>
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-space"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-actions">
+      <view class="bottom-action" bindtap="toggleFavorite">
+        <text class="action-icon">{{isFavorite ? '❤️' : '🤍'}}</text>
+        <text class="action-text">{{isFavorite ? '已收藏' : '收藏'}}</text>
+      </view>
+      <button class="bottom-action" open-type="share">
+        <text class="action-icon">📤</text>
+        <text class="action-text">分享</text>
+      </button>
+      <view class="bottom-action" bindtap="goAppointment">
+        <text class="action-icon">📅</text>
+        <text class="action-text">预约</text>
+      </view>
+    </view>
+    <view class="bottom-btns">
+      <button class="btn btn-secondary contact-btn" bindtap="callAgent">
+        <text>📞 电话联系</text>
+      </button>
+      <button class="btn btn-primary appointment-btn" bindtap="goAppointment">
+        <text>预约看房</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 图片预览 -->
+  <view class="preview-overlay" wx:if="{{showPreview}}" bindtap="closePreview">
+    <swiper class="preview-swiper" current="{{previewIndex}}" bindchange="onPreviewChange">
+      <swiper-item wx:for="{{house.images}}" wx:key="*this">
+        <image class="preview-image" src="{{item}}" mode="aspectFit"></image>
+      </swiper-item>
+    </swiper>
+    <view class="preview-counter">{{previewIndex + 1}}/{{house.images.length}}</view>
+    <view class="preview-close" bindtap="closePreview">✕</view>
+  </view>
+
+  <!-- 预约弹窗 -->
+  <view class="appointment-overlay" wx:if="{{showAppointment}}" bindtap="closeAppointment">
+    <view class="appointment-popup" catchtap="stopPropagation">
+      <view class="appointment-header">
+        <text class="appointment-title">预约看房</text>
+        <text class="appointment-close" bindtap="closeAppointment">✕</text>
+      </view>
+      <view class="appointment-form">
+        <view class="form-item">
+          <text class="form-label">姓名</text>
+          <input class="form-input" placeholder="请输入您的姓名" value="{{appointmentForm.name}}" bindinput="onAppointmentInput" data-field="name" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">手机号</text>
+          <input class="form-input" type="number" placeholder="请输入您的手机号" value="{{appointmentForm.phone}}" bindinput="onAppointmentInput" data-field="phone" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">日期</text>
+          <picker mode="date" value="{{appointmentForm.date}}" bindchange="onDateChange">
+            <view class="form-picker">{{appointmentForm.date || '请选择日期'}}</view>
+          </picker>
+        </view>
+        <view class="form-item">
+          <text class="form-label">时间</text>
+          <picker mode="time" value="{{appointmentForm.time}}" bindchange="onTimeChange">
+            <view class="form-picker">{{appointmentForm.time || '请选择时间'}}</view>
+          </picker>
+        </view>
+        <view class="form-item">
+          <text class="form-label">备注</text>
+          <textarea class="form-textarea" placeholder="请输入备注信息（选填）" value="{{appointmentForm.remark}}" bindinput="onAppointmentInput" data-field="remark"></textarea>
+        </view>
+      </view>
+      <view class="appointment-footer">
+        <button class="btn btn-primary" bindtap="submitAppointment">提交预约</button>
+      </view>
+    </view>
+  </view>
+</view>
