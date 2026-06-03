@@ -22,7 +22,7 @@
       <view class="section-title">基本信息</view>
       <view class="info-grid">
         <view class="info-item"><text class="label">总价</text><text class="value">{{project.totalPriceStart}}万起</text></view>
-        <view class="info-item"><text class="label">建面</text><text class="value">{{project.areaRange?.min}}-{{project.areaRange?.max}}㎡</text></view>
+        <view class="info-item"><text class="label">建面</text><text class="value">{{project.areaRange.min}}-{{project.areaRange.max}}㎡</text></view>
         <view class="info-item"><text class="label">开发商</text><text class="value">{{project.developer}}</text></view>
         <view class="info-item"><text class="label">产权</text><text class="value">{{project.propertyYears}}年</text></view>
         <view class="info-item"><text class="label">交房</text><text class="value">{{project.deliverDate}}</text></view>

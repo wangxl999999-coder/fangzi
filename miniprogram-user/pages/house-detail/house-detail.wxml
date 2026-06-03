@@ -141,9 +141,9 @@
     <view class="section community-section" wx:if="{{house.community || house.communityName}}">
       <view class="section-title">小区信息</view>
       <view class="community-card" bindtap="goCommunityDetail" data-id="{{house.community}}">
-        <image class="community-image" src="{{house.community?.image || house.images[0]}}" mode="aspectFill"></image>
+        <image class="community-image" src="{{house.community.image || house.images[0]}}" mode="aspectFill"></image>
         <view class="community-info">
-          <view class="community-name">{{house.community?.name || house.communityName}}</view>
+          <view class="community-name">{{house.community.name || house.communityName}}</view>
           <view class="community-address">{{house.address}}</view>
           <view class="community-stats" wx:if="{{house.community}}">
             <text>均价 {{house.community.averagePrice}}元/㎡</text>
@@ -152,7 +152,7 @@
         </view>
         <text class="community-arrow">></text>
       </view>
-      <view class="community-facilities" wx:if="{{house.community?.facilities}}">
+      <view class="community-facilities" wx:if="{{house.community && house.community.facilities}}">
         <text class="tag tag-blue" wx:for="{{house.community.facilities}}" wx:key="*this">{{item}}</text>
       </view>
     </view>
@@ -167,7 +167,7 @@
           <text class="map-hint">点击查看地图</text>
         </view>
       </view>
-      <view class="peripheral-list" wx:if="{{house.community?.surrounding}}">
+      <view class="peripheral-list" wx:if="{{house.community && house.community.surrounding}}">
         <view class="peripheral-item" wx:for="{{house.community.surrounding}}" wx:key="name">
           <text class="peripheral-name">{{item.name}}</text>
           <text class="peripheral-type">{{item.type}}</text>
@@ -180,17 +180,17 @@
     <view class="section agent-section">
       <view class="section-title">联系人</view>
       <view class="agent-card">
-        <image class="agent-avatar" src="{{house.owner?.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+        <image class="agent-avatar" src="{{house.owner.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
         <view class="agent-info">
           <view class="agent-name">
-            {{house.owner?.realName || house.contactName}}
+            {{house.owner.realName || house.contactName}}
             <text class="agent-badge" wx:if="{{house.ownerType === 'agent'}}">经纪人</text>
             <text class="agent-badge landlord" wx:if="{{house.ownerType === 'landlord'}}">房东</text>
           </view>
-          <view class="agent-company" wx:if="{{house.owner?.company}}">{{house.owner.company}}</view>
+          <view class="agent-company" wx:if="{{house.owner && house.owner.company}}">{{house.owner.company}}</view>
           <view class="agent-stats">
-            <text>发布房源 {{house.owner?.houseCount || 0}}套</text>
-            <text wx:if="{{house.owner?.authStatus === 'approved'}}">✓ 已认证</text>
+            <text>发布房源 {{house.owner.houseCount || 0}}套</text>
+            <text wx:if="{{house.owner && house.owner.authStatus === 'approved'}}">✓ 已认证</text>
           </view>
         </view>
         <view class="agent-actions">
