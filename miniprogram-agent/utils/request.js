@@ -14,13 +14,13 @@ const request = (options) => {
       data,
       header,
       success: (res) => {
-        if (res.statusCode === 200) {
+        if (res.statusCode === 401) {
+          app.logout();
+          wx.navigateTo({ url: '/pages/auth/auth' });
+          reject(res.data);
+        } else if (res.statusCode === 200) {
           if (res.data.code === 0) {
             resolve(res.data.data);
-          } else if (res.statusCode === 401) {
-            app.logout();
-            wx.navigateTo({ url: '/pages/auth/auth' });
-            reject(res.data);
           } else {
             wx.showToast({
               title: res.data.message || '请求失败',

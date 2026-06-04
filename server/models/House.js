@@ -153,7 +153,7 @@ const houseSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'approved', 'rejected', 'sold', 'rented'],
+    enum: ['pending', 'approved', 'rejected', 'sold', 'rented', 'offline'],
     default: 'pending'
   },
   rejectReason: {

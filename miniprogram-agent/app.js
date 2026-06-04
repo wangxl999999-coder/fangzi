@@ -1,6 +1,6 @@
 App({
   globalData: {
-    baseUrl: 'http://localhost:3000/api',
+    baseUrl: 'http://localhost:3001/api',
     token: '',
     userInfo: null,
     currentCity: '北京'

@@ -33,13 +33,25 @@ Page({
     this.setData({ loading: true });
     
     try {
+      let status = this.data.activeStatus;
+      if (status === 'all') {
+        status = undefined;
+      } else if (status === 'online') {
+        status = 'approved';
+      }
+      
       const result = await api.house.getMyList({
         page: this.data.page,
         pageSize: this.data.pageSize,
-        status: this.data.activeStatus === 'all' ? undefined : this.data.activeStatus
+        status
       });
       
-      const newList = this.data.page === 1 ? result.list : [...this.data.houseList, ...result.list];
+      const mappedList = result.list.map(item => ({
+        ...item,
+        status: item.status === 'approved' ? 'online' : item.status
+      }));
+      
+      const newList = this.data.page === 1 ? mappedList : [...this.data.houseList, ...mappedList];
       
       this.setData({
         houseList: newList,
