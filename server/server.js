@@ -29,6 +29,7 @@ app.use('/api/messages', require('./routes/messages'));
 app.use('/api/marketing', require('./routes/marketing'));
 app.use('/api/tools', require('./routes/tools'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/agent', require('./routes/agent'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: '服务器运行正常' });

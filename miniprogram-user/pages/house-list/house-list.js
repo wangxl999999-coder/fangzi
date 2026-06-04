@@ -101,6 +101,7 @@ Page({
       if (this.data.filters.decoration.length > 0) params.decoration = this.data.filters.decoration.join(',');
       if (this.data.filters.facilities.length > 0) params.facilities = this.data.filters.facilities.join(',');
       if (this.data.filters.propertyType) params.propertyType = this.data.filters.propertyType;
+      if (this.data.filters.orientation.length > 0) params.orientation = this.data.filters.orientation.join(',');
       if (app.globalData.location) {
         params.lat = app.globalData.location.lat;
         params.lng = app.globalData.location.lng;

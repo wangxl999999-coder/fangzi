@@ -59,14 +59,15 @@ const getHouseList = async (req, res) => {
     
     if (floor) {
       const floorMap = {
-        'low': /低楼层/,
-        'middle': /中楼层/,
-        'high': /高楼层/,
-        'ground': /底层/,
-        'top': /顶层/
+        'low': '低楼层',
+        'middle': '中楼层',
+        'high': '高楼层',
+        'ground': '底层',
+        'top': '顶层'
       };
-      if (floorMap[floor]) {
-        query.floor = { $regex: floorMap[floor] };
+      const floorValues = floor.split(',').map(f => floorMap[f]).filter(Boolean);
+      if (floorValues.length > 0) {
+        query.floor = { $in: floorValues };
       }
     }
     
@@ -80,6 +81,10 @@ const getHouseList = async (req, res) => {
     
     if (propertyType) {
       query.propertyType = propertyType;
+    }
+    
+    if (req.query.orientation) {
+      query.orientation = { $in: req.query.orientation.split(',') };
     }
 
     let sortObj = {};

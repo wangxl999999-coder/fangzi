@@ -31,7 +31,7 @@ Page({
     }
 
     try {
-      await api.auth.sendCode({ phone });
+      await api.auth.sendSms({ phone });
       wx.showToast({ title: '验证码已发送', icon: 'success' });
       
       this.setData({ countdown: 60 });
@@ -82,7 +82,7 @@ Page({
   async wxLogin() {
     try {
       const wxInfo = await wx.login();
-      const result = await api.auth.wxLogin({ code: wxInfo.code });
+      const result = await api.auth.login({ code: wxInfo.code, type: 'wechat' });
       app.setToken(result.token);
       app.setUserInfo(result.user);
       
